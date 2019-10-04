@@ -6,3 +6,8 @@ img {
     display: block;
     margin: auto;
 }
+
+.value {
+    text-align: left;
+    margin-top:40px; 
+}

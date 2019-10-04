@@ -1,15 +1,15 @@
 <div
   class="checkbox"
   role="checkbox"
-  [id]="id + 'custom'"
+  [id]="checkboxId + 'custom'"
   [attr.aria-checked]="value"
   (click)="changeCheckbox()"
   (keypress)="changeCheckbox()"
   tabindex="0"
-  [attr.aria-labelledby]="id">
+  [attr.aria-labelledby]="checkboxId">
 </div> 
 <label
-  [id]="id"
+  [id]="checkboxId"
   (click)="changeCheckbox()"
   (keypress)="changeCheckbox()">
   {{label}}

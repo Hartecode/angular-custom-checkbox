@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-custom-checkbox',
@@ -9,11 +9,12 @@ export class CustomCheckboxComponent {
   value: boolean = false;
 
   @Input() label: string;
-  @Input() id: string = 'checkbox';
-
+  @Input() checkboxId: string = 'checkbox';
+  @Output() clicked = new EventEmitter<boolean>();
 
   changeCheckbox() {
     this.value = !this.value;
+    this.clicked.emit(this.value);
   }
 
 }
