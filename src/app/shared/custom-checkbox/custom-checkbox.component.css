@@ -1,3 +1,37 @@
+
 :host {
-    display: block;
+    align-items: center;
+    display: flex
+}
+
+/* hiding the input so it isn't visiable */
+input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+label {
+    cursor: pointer;
+    height: 20px;
+    outline: none;
+    user-select: none;
+    margin-left: 5px;
+}
+
+.checkbox {
+    background-color: rgb(238, 238, 238);
+    border: 2px solid rgb(58, 58, 58);
+    box-sizing: border-box;
+    height: 20px;
+    width: 20px;
+}
+
+.checkbox[aria-checked="true"] {
+    background-image: url("https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F9%2F90%2FCheck_mark_23x20_02.svg%2F633px-Check_mark_23x20_02.svg.png&f=1&nofb=1");
+    background-color: blueviolet;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
 }

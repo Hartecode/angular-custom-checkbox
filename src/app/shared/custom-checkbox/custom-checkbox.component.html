@@ -1,4 +1,16 @@
-<label for="checkbox">
-  <input type="checkbox" id="checkbox" name="select" checked>
+<div
+  class="checkbox"
+  role="checkbox"
+  [id]="id + 'custom'"
+  [attr.aria-checked]="value"
+  (click)="changeCheckbox()"
+  (keypress)="changeCheckbox()"
+  tabindex="0"
+  [attr.aria-labelledby]="id">
+</div> 
+<label
+  [id]="id"
+  (click)="changeCheckbox()"
+  (keypress)="changeCheckbox()">
   {{label}}
 </label>
