@@ -31,7 +31,15 @@ label {
 .checkbox[aria-checked="true"] {
     background-image: url("https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F9%2F90%2FCheck_mark_23x20_02.svg%2F633px-Check_mark_23x20_02.svg.png&f=1&nofb=1");
     background-color: blueviolet;
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.checkbox[aria-checked="mixed"] {
+    background-image: url("https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F3%2F31%2FMinus-.svg%2F1024px-Minus-.svg.png&f=1&nofb=1");
+    background-color: rgb(38, 138, 219);
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
 }

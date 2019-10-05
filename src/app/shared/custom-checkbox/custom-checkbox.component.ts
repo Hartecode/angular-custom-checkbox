@@ -6,14 +6,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./custom-checkbox.component.css']
 })
 export class CustomCheckboxComponent {
-  value: boolean = false;
 
+  @Input() value: boolean | 'mixed';
   @Input() label: string;
-  @Input() checkboxId: string = 'checkbox';
+  @Input() checkboxId: string;
   @Output() clicked = new EventEmitter<boolean>();
 
   changeCheckbox() {
-    this.value = !this.value;
+    this.value = (this.value === 'mixed') ? true : !this.value;
     this.clicked.emit(this.value);
   }
 
