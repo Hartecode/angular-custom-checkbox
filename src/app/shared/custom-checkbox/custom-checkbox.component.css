@@ -24,6 +24,7 @@ label {
     background-color: rgb(238, 238, 238);
     border: 2px solid rgb(58, 58, 58);
     box-sizing: border-box;
+    cursor: pointer;
     height: 20px;
     width: 20px;
 }
@@ -42,4 +43,14 @@ label {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+:host[disabled='true'] label,
+:host[disabled='true'] .checkbox {
+    cursor: unset;
+}
+
+:host[disabled='true'] .checkbox {
+    cursor: unset;
+    opacity: 0.25;
 }

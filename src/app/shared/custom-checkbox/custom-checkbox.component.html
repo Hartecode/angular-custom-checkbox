@@ -3,6 +3,7 @@
   role="checkbox"
   [id]="checkboxId + 'custom'"
   [attr.aria-checked]="value"
+  [attr.aria-disabled]="disabled"
   (click)="changeCheckbox()"
   (keypress)="changeCheckbox()"
   tabindex="0"
