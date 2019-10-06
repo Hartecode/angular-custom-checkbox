@@ -1,15 +1,67 @@
 <img width="100" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
 <h1>Custom Checkbox Component</h1>
-<form  [formGroup]="sampleForm">
-    <app-custom-checkbox 
-        [checkboxId]="'boxid'"
-        [label]="title"
-        formControlName="checkBox">
-    </app-custom-checkbox>
-</form>
+<section class="container">
+    <div class="formContainers">
+        <form  [formGroup]="sampleForm">
+            <app-custom-checkbox 
+                [checkboxId]="'boxid'"
+                [label]="title"
+                formControlName="checkBox">
+            </app-custom-checkbox>
+        </form>
+        
+        <form [formGroup]="indeterminateFrom">
+            <ul>
+                <li>
+                    <app-custom-checkbox 
+                        [checkboxId]="'sizeLabel'"
+                        [label]="'size'"
+                        formControlName="size">
+                    </app-custom-checkbox>
+                    <ul formGroupName="sizeSubGroup">
+                        <li *ngFor="let size of sizes; let i = index">
+                            <app-custom-checkbox 
+                                [checkboxId]="'size' + i"
+                                [label]="size.label"
+                                [formControlName]="size.form">
+                            </app-custom-checkbox>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <app-custom-checkbox 
+                        [checkboxId]="'langLabel'"
+                        [label]="'Language'"
+                        formControlName="language">
+                    </app-custom-checkbox>
+                    <ul formGroupName="languageSubGroup">
+                        <li *ngFor="let lang of languages; let i = index">
+                            <app-custom-checkbox 
+                                [checkboxId]="'lang' + i"
+                                [label]="lang.label"
+                                [formControlName]="lang.form">
+                            </app-custom-checkbox>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </form>
+    </div>
+    
+    <div class="value">
+        Sample From Value:
+        <pre>
+            <code>
+                {{sampleForm.value | json}}
+            </code>
+        </pre>
+        Indeterminate From Value:
+        <pre>
+            <code> 
+                {{indeterminateFrom.value | json}}
+                </code>
+        </pre>
+    </div>
+</section>
 
-
-<div class="value">
-    Value: {{sampleForm.value | json}}
-</div>
 
