@@ -11,6 +11,8 @@ import {sizes, languages, Facets} from './model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  public sizes = sizes;
+  public languages = languages;
   private subscription: Subscription[] = [];
   public indeterminateFrom: FormGroup;
   public title = 'custom-checkbox';
