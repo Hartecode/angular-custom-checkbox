@@ -1,8 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {debounce , distinctUntilChanged, tap} from 'rxjs/operators';
 import {Subscription, Observable, interval} from 'rxjs';
 import {CheckboxValue} from './shared/custom-checkbox/custom-checkbox.component';
+import {sizes, languages, Facets} from './model';
 
 @Component({
   selector: 'app-root',
@@ -10,52 +11,10 @@ import {CheckboxValue} from './shared/custom-checkbox/custom-checkbox.component'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  subscription: Subscription[] = [];
-  indeterminateFrom: FormGroup;
-  currentValue: boolean;
-  title = 'custom-checkbox';
-  sizes: Facets[] = [
-    {
-      label: 'Small',
-      form: 'small'
-    },
-    {
-      label: 'Medium',
-      form: 'medium'
-    },
-    {
-      label: 'Large',
-      form: 'large'
-    },
-    {
-      label: 'X-Large',
-      form: 'xLarge'
-    }
-  ];
-
-  languages: Facets[] = [
-    {
-      label: 'English',
-      form: 'english',
-    },
-    {
-      label: 'English (US)',
-      form: 'englishUS',
-    },
-    {
-      label: 'English (UK)',
-      form: 'englishUK',
-    },
-    {
-      label: 'Spanish',
-      form: 'spanish'
-    },
-    {
-      label: 'German',
-      form: 'german'
-    }
-  ];
-  controlsConfig = {
+  private subscription: Subscription[] = [];
+  public indeterminateFrom: FormGroup;
+  public title = 'custom-checkbox';
+  private controlsConfig = {
     size: [false],
     sizeSubGroup: this.fb.group({
       small: [false],
@@ -75,9 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder) { }
 
-  sampleForm = new FormGroup({
-    checkBox: new FormControl('mixed')
-  });
+  public sampleForm: FormGroup = this.fb.group({checkBox: ['mixed']});
 
   ngOnInit() {
     this.indeterminateFrom = this.fb.group(this.controlsConfig);
@@ -92,42 +49,45 @@ export class AppComponent implements OnInit, OnDestroy {
 
   updateSubGroup(val: CheckboxValue, groupName: string, list: Facets[]) {
     if (val !== 'mixed') {
+      // get ref of the nested form
       const subGroup: AbstractControl = this.indeterminateFrom.get(groupName);
+      // looping through the list to set the values in the nested form to be the same
       list.forEach(obj => subGroup.get(obj.form).setValue(val));
     }
   }
 
-  applyingSubGroupPiping(observable: Observable<CheckboxValue>, groupName: string, list: Facets[]) {
-    return observable.pipe(distinctUntilChanged(), tap(val => {
-      this.updateSubGroup(val, groupName, list);
-    })).subscribe();
+  applyingSubGroupPiping(category: string, groupName: string, list: Facets[]) {
+    return this.changeObservable(category).pipe(
+      distinctUntilChanged(), // only get the value if it changed
+      tap(val => { this.updateSubGroup(val, groupName, list); })
+      ).subscribe();
   }
 
   updateCategoryCheckbox(category: string, group: string): Subscription {
     return this.changeObservable(group)
+    // This observable can emit mulit times in a short period of time
+    // the emotions are debounce so we can get only the least emitted value
       .pipe(debounce(() => interval()))
       .subscribe(obj => {
         const keys = Object.keys(obj);
+        // Looping through all the keys to see if they have the same value.
+        // If true then return the like value else return 'mixed'.
         const value: CheckboxValue = keys.reduce((acc: boolean | 'string', cur) => {
           return (acc === obj[cur]) ? obj[cur] : 'mixed';
         }, obj[keys[0]]);
+        // Set the value of the category checkbox
         this.indeterminateFrom.get(category).setValue(value);
       });
   }
 
   onChange() {
-    this.subscription.push(this.applyingSubGroupPiping(
-      this.changeObservable('size'), 'sizeSubGroup', this.sizes));
-    this.subscription.push(this.applyingSubGroupPiping(
-      this.changeObservable('language'), 'languageSubGroup', this.languages));
-    this.subscription.push(this.updateCategoryCheckbox('size', 'sizeSubGroup'));
-    this.subscription.push(this.updateCategoryCheckbox('language', 'languageSubGroup'));
+    this.subscription = [
+      this.applyingSubGroupPiping('size', 'sizeSubGroup', sizes),
+      this.applyingSubGroupPiping('language', 'languageSubGroup', languages),
+      this.updateCategoryCheckbox('size', 'sizeSubGroup'),
+      this.updateCategoryCheckbox('language', 'languageSubGroup')
+    ];
   }
 
 
-}
-
-interface Facets {
-  label: string;
-  form: string;
 }
